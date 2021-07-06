@@ -1,0 +1,66 @@
+Temat: Doradca w kupnie gier komputerowych
+
+Zespół: Kacper Knuth
+
+Moduł wnioskujący:
+	Zadaje pytania użytkownikowi próbując wybadać jego 
+	zainteresowania, na które użytkownik odpowiada yes/no. Po odpowiedzi 
+	moduł porusza się po strukturze rekurencyjnej, zapamiętując jednocześnie 
+	wcześniejsze odpowiedzi użytkownika.
+	
+Struktura bazy danych to:
+	Seria gier - czyli grupa gier spod jednej marki np.
+		franchises(witcher) :-
+			developer(cd_project_red),
+			mode(singleplayer),
+			graphics(graphics3D),
+			((genre(action),subgenre(fighting));((genre(adventure),subgenre(role_playing_games),subsubgenre(action_RPG)))).
+	Gatuneki i pod gatunki gry np.:
+		genre(adventure) :-
+			subgenre(text_adveture);
+			subgenre(visual_novels);
+			subgenre(interactive_movie);
+			subgenre(real_time3D);
+			subgenre(role_playing_games);
+			subgenre(graphic_adventure).
+		subsubgenre(role_playing_games) :-
+			subsubgenre(action_RPG);
+			subsubgenre(mmorpg);
+			subsubgenre(rougelikes);
+			subsubgenre(tactical_rpg);
+			subsubgenre(sandbox_RPG);
+			subsubgenre(first_person_party_based_RPG).
+	Gra - niektóre gry nie podlegają pod żadną serię gier np.:
+		game(assassins_creed_valhalla) :-
+			franchises(assassins_creed),
+			climate(medival),
+			theme(vikings).
+		game(the_sims_4) :-
+			developer(ea),
+			platform(pc),
+			mode(singleplayer),
+			graphics(graphics3D),
+			genre(simulation).
+	
+Program uruchamia się po komendzie -? run.
+
+Przykładowe zapytanie:
+	?- run.
+	developer:activision? : no.
+	developer:bethesda? : |: no.
+	developer:squere_enix? : |: no.
+	developer:ea? : |: yes.
+	platform:multi? : |: yes.
+	mode:single_or_multiplayer? : |: no.
+	mode:singleplayer? : |: yes.
+	graphics:graphics3D? : |: yes.
+	subgenre:fps? : |: no.
+	subgenre:fighting? : |: no.
+	subgenre:beatem_up? : |: no.
+	subgenre:stealth? : |: no.
+	subgenre:role_playing_games? : |: no.
+	subgenre:survival? : |: no.
+	subgenre:survival_horror? : |: no.
+	subgenre:metroidvania? : |: yes.
+	The answer is star_wars_jedi_fallen_order
+	true.
